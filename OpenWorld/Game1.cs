@@ -14,6 +14,9 @@ namespace OpenWorld
 		private Matrix view = Matrix.CreateLookAt(new Vector3(0, 10, 10), new Vector3(0, 0, 0), Vector3.UnitY);
 		private Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 480f, 0.1f, 100f);
 
+		private Vector3 position;
+		private float angle;
+
 		public Game1()
 		{
 			_graphics = new GraphicsDeviceManager(this);
@@ -33,6 +36,8 @@ namespace OpenWorld
 			_spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			Texture2D texture = Content.Load<Texture2D>("Models/AsteroidTexture");
+			position = new Vector3(0, 0, 0);
+			angle = 0;
 
 			model = Content.Load<Model>("Models/Cube");
 			AddTexture(texture);
@@ -56,8 +61,15 @@ namespace OpenWorld
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
+			/*
+			position += new Vector3(0, 0.01f, 0);
+			world = Matrix.CreateTranslation(position);
+			*/
 
 
+			angle += 0.03f;
+			world = Matrix.CreateTranslation(position);
+			world = Matrix.CreateRotationX(angle) * Matrix.CreateTranslation(position);
 
 			view = Matrix.CreateLookAt(new Vector3(0, 10, 10), new Vector3(0, 0, 0), Vector3.UnitY);
 
