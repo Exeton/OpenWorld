@@ -31,7 +31,7 @@ namespace OpenWorld
 		protected override void LoadContent()
 		{
 			_spriteBatch = new SpriteBatch(GraphicsDevice);
-			model = Content.Load<Model>("cube");
+			model = Content.Load<Model>("Models/Cube");
 			// TODO: use this.Content to load your game content here
 		}
 
