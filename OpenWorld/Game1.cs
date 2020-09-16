@@ -56,6 +56,11 @@ namespace OpenWorld
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
+
+
+
+			view = Matrix.CreateLookAt(new Vector3(0, 10, 10), new Vector3(0, 0, 0), Vector3.UnitY);
+
 			// TODO: Add your update logic here
 
 			base.Update(gameTime);
