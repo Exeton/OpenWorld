@@ -9,6 +9,11 @@ namespace OpenWorld
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
 
+		private Model model;
+		private Matrix world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
+		private Matrix view = Matrix.CreateLookAt(new Vector3(0, 0, 10), new Vector3(0, 0, 0), Vector3.UnitY);
+		private Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 480f, 0.1f, 100f);
+
 		public Game1()
 		{
 			_graphics = new GraphicsDeviceManager(this);
@@ -26,7 +31,7 @@ namespace OpenWorld
 		protected override void LoadContent()
 		{
 			_spriteBatch = new SpriteBatch(GraphicsDevice);
-
+			model = Content.Load<Model>("cube");
 			// TODO: use this.Content to load your game content here
 		}
 
@@ -46,7 +51,25 @@ namespace OpenWorld
 
 			// TODO: Add your drawing code here
 
+			DrawModel(model, world, view, projection);
+
 			base.Draw(gameTime);
 		}
+
+		private void DrawModel(Model model, Matrix world, Matrix view, Matrix projection)
+		{
+			foreach (ModelMesh mesh in model.Meshes)
+			{
+				foreach (BasicEffect effect in mesh.Effects)
+				{
+					effect.World = world;
+					effect.View = view;
+					effect.Projection = projection;
+				}
+
+				mesh.Draw();
+			}
+		}
+
 	}
 }
