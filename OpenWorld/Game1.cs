@@ -11,7 +11,7 @@ namespace OpenWorld
 
 		private Model model;
 		private Matrix world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
-		private Matrix view = Matrix.CreateLookAt(new Vector3(0, 0, 10), new Vector3(0, 0, 0), Vector3.UnitY);
+		private Matrix view = Matrix.CreateLookAt(new Vector3(0, 10, 10), new Vector3(0, 0, 0), Vector3.UnitY);
 		private Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 480f, 0.1f, 100f);
 
 		public Game1()
@@ -31,9 +31,25 @@ namespace OpenWorld
 		protected override void LoadContent()
 		{
 			_spriteBatch = new SpriteBatch(GraphicsDevice);
+
+			Texture2D texture = Content.Load<Texture2D>("Models/AsteroidTexture");
+
 			model = Content.Load<Model>("Models/Cube");
+			AddTexture(texture);
 			// TODO: use this.Content to load your game content here
 		}
+
+		private void AddTexture(Texture2D texture)
+		{
+			foreach (ModelMesh mesh in model.Meshes)			
+				foreach (BasicEffect effect in mesh.Effects)
+				{
+					effect.TextureEnabled = true;
+					effect.Texture = texture;
+				}
+
+		}
+
 
 		protected override void Update(GameTime gameTime)
 		{
@@ -62,6 +78,8 @@ namespace OpenWorld
 			{
 				foreach (BasicEffect effect in mesh.Effects)
 				{
+
+
 					effect.World = world;
 					effect.View = view;
 					effect.Projection = projection;
